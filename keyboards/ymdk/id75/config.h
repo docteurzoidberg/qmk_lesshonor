@@ -14,59 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// config.h
-
 #pragma once
 
 #include "config_common.h"
 
-// USB Device descriptor parameter
-#define VENDOR_ID       0x6964 // ID
-#define PRODUCT_ID      0x0075
-#define DEVICE_VER      0x0001
-#define MANUFACTURER    MT
-#define PRODUCT         ID75 Rev
+#define RGB_MATRIX_LED_COUNT 89
 
-#undef STM32_HSECLK
-#define STM32_HSECLK 8000000
+#define RGB_DISABLE_WHEN_USB_SUSPENDED
 
-#define TAPPING_TOGGLE 2
-#define DYNAMIC_KEYMAP_LAYER_COUNT 6
-#define DYNAMIC_KEYMAP_MACRO_COUNT 5
-// key matrix size
-#define MATRIX_ROWS 5
-#define MATRIX_COLS 15
-
-/*
- * Keyboard Matrix Assignments
- *
- * Change this to how you wired your keyboard
- * COLS: AVR pins used for columns, left to right
- * ROWS: AVR pins used for rows, top to bottom
- * DIODE_DIRECTION: COL2ROW = COL = Anode (+), ROW = Cathode (-, marked on diode)
- *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
- *
- */
-#define MATRIX_ROW_PINS \
-    { B2, B1, B0, A7, B10 }
-#define MATRIX_COL_PINS \
-    { A10, A9, A8, B15, B14, B13, B12, A5, A6, A4, A3, A2, A1, A0, A15 }
-
-// COL2ROW or ROW2COL
-#define DIODE_DIRECTION ROW2COL
-
-#define RGB_DI_PIN B9
-
-// Want backlighting and RGB Matrix patterns? See the note in the readme,
-// apply the patches, and then uncomment the line below as well as the ones
-// in rules.mk.
-//
-// #define BACKLIGHT_PIN rgb_matrix
 #define RGB_MATRIX_KEYPRESSES
-#define RGBLED_NUM 89
-#define DRIVER_LED_TOTAL RGBLED_NUM
 #define RGB_MATRIX_FRAMEBUFFER_EFFECTS
-#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 128
+
 #define WS2812_PWM_DRIVER PWMD4
 #define WS2812_PWM_CHANNEL 4
 #define WS2812_PWM_PAL_MODE 2
