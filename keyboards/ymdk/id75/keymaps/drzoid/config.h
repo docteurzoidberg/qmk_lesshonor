@@ -19,14 +19,7 @@
 
 #include "../../config.h"
 
-#undef  RGBLIGHT_ANIMATIONS
-#define RGBLIGHT_EFFECT_STATIC_GRADIENT
-#define RGBLIGHT_EFFECT_RAINBOW_SWIRL
-
-//Comment/uncomment based on OS setup
-//#define DRZ_AZERTY_FR_OS        // Qwerty keycaps & layout with Azerty French OS */
-#define DRZ_QWERTY_INTL_OS    // Qwerty keycaps & layout with Qwerty Intl OS */
-
+#define DRZ_QWERTY_INTL_OS
 #define DRZ_USE_UNICODE
 #define LONGPRESS_ENABLE
 
@@ -140,7 +133,6 @@
 #define DRZ_PND RALT(LSFT(KC_4))
 #define DRZ_DEG RALT(LSFT(KC_SCLN))
 #define DRZ_EUR RALT(KC_5)
-
 
 #endif
 
