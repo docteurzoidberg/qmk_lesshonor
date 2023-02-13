@@ -358,6 +358,7 @@ void rgblight_decrease_speed(void);
 void rgblight_decrease_speed_noeeprom(void);
 void rgblight_sethsv(uint8_t hue, uint8_t sat, uint8_t val);
 void rgblight_sethsv_noeeprom(uint8_t hue, uint8_t sat, uint8_t val);
+void rgblight_sethsv_noeeprom_old(uint8_t hue, uint8_t sat, uint8_t val);
 
 /*   effect speed */
 uint8_t rgblight_get_speed(void);

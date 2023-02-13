@@ -4,22 +4,28 @@ void my_custom_function(void) {
 
 }
 
-void rgblight_setrgb_cyan() {
-    rgblight_sethsv(0xC3,  0xFF, 0xEE);
-}
+#ifdef RGBLIGHT_ENABLE
+    void drz_rgblight_set_hsv(uint8_t h, uint8_t s, uint8_t v) {
+        rgblight_sethsv_noeeprom_old(h,s,v);
+    }
 
-void rgblight_setrgb_orange() {
-    rgblight_sethsv(0x1E,  0xFF, 0xEE);
-}
+    void drz_rgblight_set_cyan() {
+        rgblight_sethsv_noeeprom_old(HSV_CYAN);
+    }
 
-void rgblight_setrgb_red() {
-    rgblight_sethsv(0x00,  0xFF, 0xEE);
-}
+    void drz_rgblight_set_orange() {
+        rgblight_sethsv_noeeprom_old(HSV_ORANGE);
+    }
 
-void rgblight_setrgb_yellow() {
-    rgblight_sethsv(0x3C,  0xFF, 0xEE);
-}
+    void drz_rgblight_set_red() {
+        rgblight_sethsv_noeeprom_old(HSV_RED);
+    }
 
-void rgblight_setrgb_green() {
-    rgblight_sethsv(0x78,  0xFF, 0xEE);
-}
+    void drz_rgblight_set_yellow() {
+        rgblight_sethsv_noeeprom_old(HSV_YELLOW);
+    }
+
+    void drz_rgblight_set_green() {
+        rgblight_sethsv_noeeprom_old(HSV_GREEN);
+    }
+#endif
