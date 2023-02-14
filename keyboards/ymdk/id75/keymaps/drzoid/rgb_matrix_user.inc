@@ -54,13 +54,10 @@ unsigned int rnd(int x, int y) {
   return (((((X * 71521)+ (Y * 13547))^ 35135) % 1000) + 1000) % 1000;
 }
 
-int noise(int X, int Y, int T, int flame_height, int heat_spots, int x_attenuation) {
+int noise(int X, int Y, int T, int flame_height, int heat_spots, int attenuation) {
+  attenuation = (MATRIX_ROWS - Y) * 500 / MATRIX_ROWS +  attenuation;
   int x = X;
   int n = 0;
-  int attenuation = (MATRIX_ROWS - Y) * 1000 / MATRIX_ROWS * 1000 / flame_height
-    + (x_attenuation == 0 ? 0
-    : MAX(0, apow(1000 - (X + 1) * (MATRIX_COLS - X) * 4000 / ((MATRIX_COLS + 2) * (MATRIX_COLS+ 2)), 1000000 / x_attenuation)));
-
   int sum_coeff = 0;
   for(int i = 8 ; i > 0 ; i >>= 1) {
     int y = Y + T * 8 / i;
@@ -79,34 +76,61 @@ int noise(int X, int Y, int T, int flame_height, int heat_spots, int x_attenuati
   return MAX(0, apow(n / sum_coeff, 1000000 / heat_spots * 1000 / (attenuation + 1000)) - attenuation);
 }
 
+int effective_attenuations[MATRIX_COLS];
+int target_attenuations[MATRIX_COLS];
+
 static void my_fire_effect_init(effect_params_t* params) {
+    for (uint8_t col = 0; col < MATRIX_COLS; col++) {
+        target_attenuations[col] = 500;
+        effective_attenuations[col] = 0; // départ en douceur
+    }
 }
 
 static bool my_fire_effect_run(effect_params_t* params) {
-  unsigned long timer = g_rgb_timer/10;
+  //uint16_t timer      = scale16by8(g_rgb_timer, rgb_matrix_config.speed / 4);
+  uint16_t timer = sync_timer_read32();
+
   int begin_time = timer > starting_speed ? 1000 : (int) (timer * 1000 / starting_speed);
 
   // must be signed int
   int periodic_time = (int) (timer % periodicity);
   periodic_time = periodic_time * 1000 / periodicity;
   if(periodic_time > 500)
-      periodic_time = 1000 - periodic_time;
+    periodic_time = 1000 - periodic_time;
 
   int flame_height = int_lerp(int_lerp(init_flame_height, max_flame_height, begin_time), min_flame_height, periodic_time);
   int heat_spots = int_lerp(int_lerp(init_heat_spots, max_heat_spots, begin_time), min_heat_spots, periodic_time);
-  int x_attenuation = int_lerp(int_lerp(init_x_attenuation, min_x_attenuation, begin_time), max_x_attenuation, periodic_time);
 
   for (uint8_t col = 0; col < MATRIX_COLS; col++) {
     for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
-      int heat = noise(col, row, (int) (timer * speed / 1000), flame_height, heat_spots, x_attenuation);
+      int heat = noise(col, row, (int) (timer * speed / 1000), flame_height, heat_spots, effective_attenuations[col]);
       int r = MIN(255, (int) (heat * 255 / 333));
       int g = MIN(255, MAX(0, (int) ((heat - 333) * 255 / 333)));
       int b = MIN(255, MAX(0, (int) ((heat - 667) * 255 / 333)));
       int i = row * MATRIX_COLS + col;
-      rgb_matrix_set_color(i, r,g,b);
+      rgb_matrix_set_color(i, r, g, b);
+    }
+
+    // TODO : crÃ©er une constante globale pour la vitesse de convergence ?
+    if(effective_attenuations[col] > target_attenuations[col]) effective_attenuations[col]--;
+    if(effective_attenuations[col] < target_attenuations[col]) effective_attenuations[col]++;
+
+    if(target_attenuations[col] > 500) target_attenuations[col]--;
+    if(target_attenuations[col] < 500) target_attenuations[col]++;
+
+    // propagation horizontale 1-2
+    if(col + 1 != MATRIX_COLS) {
+      target_attenuations[col] = MIN(target_attenuations[col], target_attenuations[col+1] + 100); // TODO 100 = stocker dans une constante globale
     }
   }
+
+  // propagation horizontale 2-2
+  for (uint8_t col = MATRIX_COLS - 1; col > 0; col--) {
+    target_attenuations[col] = MIN(target_attenuations[col], target_attenuations[col-1] + 100); // TODO 100 = stocker dans une constante globale
+  }
+
   return false;
+}
 
 static bool my_fire_effect(effect_params_t* params) {
   if (params->init) my_fire_effect_init(params);

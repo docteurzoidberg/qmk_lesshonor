@@ -167,11 +167,6 @@ uint16_t longpress_timeout = 140;
 uint16_t longpress_lastkey = KC_NO;
 bool longpress_enabled = true;
 
-
-/*\ ------------------------------------------------------*/
-//  SETUP ACTIONS
-//  - Set unicode input mode
-/*\-------------------------------------------------------*/
 void keyboard_post_init_user() {
   rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_my_fire_effect);
 }
