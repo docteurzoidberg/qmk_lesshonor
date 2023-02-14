@@ -61,6 +61,8 @@ enum custom_macros {
 
 //static bool isAltSetBySpecialTab = false;
 
+// clang-format off
+
 const keypos_t hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
   {{14, 0}, {13, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}, {7, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {1, 0}, {0, 0}},
   {{14, 1}, {13, 1}, {8, 1}, {9, 1}, {10, 1}, {11, 1}, {12, 1}, {7, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}, {1, 1}, {0, 1}},
@@ -71,7 +73,7 @@ const keypos_t hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //
-  //DEFAULT LAYER
+  //DEFAULT LAYER (qwerty-based)
   //KLE url: http://www.keyboard-layout-editor.com/#/gists/3aede80592346f947cbc1eb91574d1c7
 
 //        [LOCK+] [ESC  ] [1!/¹/] [2@/² ] [3#/³ ] [4$/£/] [5%/€ ] [Macro] [6^/¼ ] [7&/½ ] [8*/¾ ] [9(/‘ ] [0)/’ ] [ESC  ] [LOCK+]
@@ -80,7 +82,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //        [L2   ] [/CAPS] [Z/Æ/æ] [X    ] [C/¢/©] [V    ] [B    ] [M3   ] [N/Ñ/ñ] [M/µ  ] [\ | /] [↑    ] [.,   ] [/CAPS] [L2   ]
 //        [SWAP ] [CTRL ] [/Acce] [/Smil] [MENU ] [TAB  ] [SPACE] [ENTER] [SPACE] [BKSPC] [←    ] [↓    ] [→    ] [RCTRL] [SWAP ]
 //
-
   [_QW] =
     LAYOUT_ortho_5x15(
       DRZ_LCK,  KC_ESC,   DRZ___1,  DRZ___2,  DRZ___3,  DRZ___4,  DRZ___5,  TO(_MC),  DRZ___6,  DRZ___7,  DRZ___8,  DRZ___9,  DRZ___0,  KC_ESC,   DRZ_LCK,
@@ -97,8 +98,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYOUT_ortho_5x15(
       _______,  KC_MUTE,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    DRZ_RST,  KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_MUTE,  _______,
       _______,  XXXXXXX,  KC_F11,   KC_F12,   KC_F13,   KC_F14,   KC_F15,   XXXXXXX,  KC_F16,   KC_F17,   KC_F18,   KC_F19,   KC_F20,   XXXXXXX,  _______,
-      _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,
-      _______,  XXXXXXX,  KC_PSCR,  KC_PAUS,  KC_CALC,  XXXXXXX,  XXXXXXX,  XXXXXXX,  BL_OFF,   BL_ON,    BL_DEC,   RGB_HUI,  BL_INC,   XXXXXXX,  _______,
+      _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  RGB_M_P,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,
+      _______,  XXXXXXX,  KC_PSCR,  KC_PAUS,  KC_CALC,  XXXXXXX,  XXXXXXX,  RGB_MOD,  BL_OFF,   BL_ON,    RGB_VAD,  RGB_HUI,  RGB_VAI,   XXXXXXX,  _______,
       _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  RGB_SAI,  RGB_HUD,  RGB_SAD,  XXXXXXX,  _______
     ),
 
@@ -159,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______
     )
 };
-
+// clang-format on
 
 uint16_t longpress_time = 0;
 uint16_t longpress_timeout = 140;
@@ -171,6 +172,10 @@ bool longpress_enabled = true;
 //  SETUP ACTIONS
 //  - Set unicode input mode
 /*\-------------------------------------------------------*/
+void keyboard_post_init_user() {
+  rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_my_fire_effect);
+}
+
 void matrix_init_user(void) {
   #ifdef DRZ_USE_UNICODE
     set_unicode_input_mode(UNICODE_MODE_WINDOWS);
@@ -497,8 +502,8 @@ void longpress_flush(void) {
   longpress_lastkey = KC_NO;
 }
 
-void  longpress_enable(void) {
-    longpress_enabled = true;
+void longpress_enable(void) {
+  longpress_enabled = true;
 }
 
 void longpress_disable(void) {

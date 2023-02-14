@@ -118,7 +118,7 @@
             { "flags": 2, "x": 190, "y": 0 },
             { "flags": 2, "x": 224, "y": 0 }
         ],
-        "max_brightness": 128
+        "max_brightness": 32
     },
     "rgblight": {
         "pin": "B9"
