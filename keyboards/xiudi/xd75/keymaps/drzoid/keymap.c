@@ -138,31 +138,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
-
-uint16_t longpress_time = 0;
-uint16_t longpress_timeout = 140;
-uint16_t longpress_lastkey = KC_NO;
-bool longpress_enabled = true;
-
-
-/*\ ------------------------------------------------------*/
-//  SETUP ACTIONS
-//  - Set unicode input mode
-/*\-------------------------------------------------------*/
 void matrix_init_user(void) {
   #ifdef DRZ_USE_UNICODE
     set_unicode_input_mode(UNICODE_MODE_WINDOWS);
   #endif
-  //keycaps_led_on();
 }
 
-/*\ ------------------------------------------------------*/
-//  LOOP ACTIONS
-//  - nothing yet
-/*\-------------------------------------------------------*/
-
 LEADER_EXTERNS();
-
 
 void matrix_scan_user(void) {
 
@@ -209,10 +191,10 @@ void matrix_scan_user(void) {
       register_code (KC_RALT); register_code (KC_RSFT); TAP_ONCE (KC_QUOTE); unregister_code (KC_RSFT); unregister_code (KC_RALT); TAP_ONCE (KC_E);
     }
 
-
     SEQ_TWO_KEYS (KC_U, KC_L) {
       set_unicode_input_mode(UNICODE_MODE_LINUX);
     }
+
     SEQ_TWO_KEYS (KC_U, KC_W) {
       set_unicode_input_mode(UNICODE_MODE_WINDOWS);
     }
@@ -407,7 +389,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
   return state;
 }
-
 
 bool process_overides(uint16_t keycode, keyrecord_t *record) {
 

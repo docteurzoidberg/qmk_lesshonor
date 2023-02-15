@@ -1,4 +1,4 @@
-/* Copyright 2017 Benjamin Kesselring
+/* Copyright 2023 DrZoid
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,26 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONFIG_USER_H
-#define CONFIG_USER_H
-
-#include "../../config.h"
+#pragma once
 
 #undef  RGBLIGHT_ANIMATIONS
 #define RGBLIGHT_EFFECT_STATIC_GRADIENT
 #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
 
-//Comment/uncomment based on OS setup
-//#define DRZ_AZERTY_FR_OS        // Qwerty keycaps & layout with Azerty French OS */
-#define DRZ_QWERTY_INTL_OS    // Qwerty keycaps & layout with Qwerty Intl OS */
-
-#define DRZ_USE_UNICODE
-#define LONGPRESS_ENABLE
-
+#define DRZ_QWERTY_INTL_OS
 #define LEADER_TIMEOUT 1000
 
 //Unicode chars
-#ifdef DRZ_USE_UNICODE
+#ifdef UNICODE_ENABLE
   #define DRZ_UC_STAR     KC_NO
   #define DRZ_UC_SQUARE   KC_NO
   #define DRZ_UC_CUBE     KC_NO
@@ -140,10 +131,6 @@
 #define DRZ_PND RALT(LSFT(KC_4))
 #define DRZ_DEG RALT(LSFT(KC_SCLN))
 #define DRZ_EUR RALT(KC_5)
-
-
-#endif
-
 
 // I don't know why, but this is making an error disappear at linking the hex file
 #define SLEEP_LED_TIMER 3

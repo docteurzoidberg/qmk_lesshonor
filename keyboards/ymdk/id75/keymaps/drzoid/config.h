@@ -16,13 +16,11 @@
 
 #pragma once
 
-#include "../../config.h"
-
 #define DRZ_QWERTY_INTL_OS
 #define LEADER_TIMEOUT 1000
 
 //Unicode chars
-#ifdef DRZ_UNICODE_ENABLE
+#ifdef UNICODE_ENABLE
   #define DRZ_UC_STAR     KC_NO
   #define DRZ_UC_SQUARE   KC_NO
   #define DRZ_UC_CUBE     KC_NO

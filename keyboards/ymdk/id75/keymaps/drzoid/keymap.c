@@ -394,7 +394,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   bool returnValue = true;
 
-  #ifdef DRZ_USE_LONGPRESS
+  #ifdef LONGPRESS_ENABLE
     if(!process_longpress(keycode, record)) {
       return false;
     }
