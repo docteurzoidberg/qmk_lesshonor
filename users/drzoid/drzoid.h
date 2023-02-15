@@ -24,6 +24,7 @@ enum userspace_custom_keycodes {
 };
 
 void my_custom_function(void);
+
 #ifdef RGBLIGHT_ENABLE
     void drz_rgblight_set_cyan(void);
     void drz_rgblight_set_orange(void);

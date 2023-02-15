@@ -2,14 +2,12 @@ ifndef QUANTUM_DIR
 	include ../../../../../Makefile
 endif
 
-ifdef DRZ_USE_UNICODE
-  UNICODE_ENABLE = yes
-endif
+
+DRZ_USE_UNICODE = yes
+DRZ_USE_LONGPRESS = yes
 
 SWAP_HANDS_ENABLE = yes
-LONGPRESS_ENABLE = yes
 LEADER_ENABLE = yes
-
 
 BACKLIGHT_LEVELS = 16
 BACKLIGHT_ENABLE = yes
