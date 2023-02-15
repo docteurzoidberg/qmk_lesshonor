@@ -14,15 +14,19 @@
 ### Unicode
 - keycode to switch from unix/windows mode
 
-### RGB !
+### RGB matrix !
 - "Layer" base led key layer
 - key indicators?
 - rgb reactive animation on typing
 - cycling "screensaver" animations on idle 
 - Underglow for layer indicator
 
-### macros
+### Macros
 - dynamic macro recording 1-3
 - secrets (login, master pass)
 
+### Leader key
+- emojis
+- accents
 
+### Longpress

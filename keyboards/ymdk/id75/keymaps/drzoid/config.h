@@ -1,4 +1,4 @@
-/* Copyright 2017 Benjamin Kesselring
+/* Copyright 2023 DrZoid
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,19 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONFIG_USER_H
-#define CONFIG_USER_H
+#pragma once
 
 #include "../../config.h"
 
 #define DRZ_QWERTY_INTL_OS
-#define DRZ_USE_UNICODE
-#define LONGPRESS_ENABLE
-
 #define LEADER_TIMEOUT 1000
 
 //Unicode chars
-#ifdef DRZ_USE_UNICODE
+#ifdef DRZ_UNICODE_ENABLE
   #define DRZ_UC_STAR     KC_NO
   #define DRZ_UC_SQUARE   KC_NO
   #define DRZ_UC_CUBE     KC_NO
@@ -134,7 +130,6 @@
 #define DRZ_DEG RALT(LSFT(KC_SCLN))
 #define DRZ_EUR RALT(KC_5)
 
-#endif
 
 
 // I don't know why, but this is making an error disappear at linking the hex file
