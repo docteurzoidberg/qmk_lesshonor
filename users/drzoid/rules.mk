@@ -3,6 +3,7 @@ MANUFACTURER= drzoid
 
 DRZ_USE_LONGPRESS ?= no
 ifeq ($(strip $(DRZ_USE_LONGPRESS)), yes)
+  LONGPRESS_ENABLE = yes
   SRC += process_longpress.c
 endif
 

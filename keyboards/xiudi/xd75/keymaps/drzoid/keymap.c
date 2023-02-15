@@ -9,9 +9,6 @@ This layout:
 #include QMK_KEYBOARD_H
 
 #include "drzoid.h"
-#include "config.h"
-#include "keymap.h"
-#include "process_longpress.h"
 #include "quantum.h"
 
 #define _QW 0
@@ -32,25 +29,6 @@ extern bool swap_hands;
   unregister_code (code)
 
 uint8_t _layer_lock=_QW;
-
-enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  FN,
-  L2,
-  L3,
-  DRZ_LOCK,
-  DRZ_SWAP_HANDS=SH_MON,
-  DRZ_LEFT_SHIFT_CAPSLOCK,
-  DRZ_RIGHT_SHIFT_CAPSLOCK,
-  DRZ_ACCENTS_TAPDANCE,
-  DRZ_EMOJIS_TAPDANCE,
-  DRZ_LPUP,
-  DRZ_LPDN,
-  DRZ_LPRP,
-  DRZ_LPTG,
-  DRZ_LPON,
-  DRZ_LPOFF
-};
 
 enum custom_macros {
   DRZ_MACRO_COMMENT_START,
@@ -430,123 +408,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return state;
 }
 
-bool process_longpress(uint16_t keycode, keyrecord_t *record) {
-
-  if (record->event.pressed) {
-    switch (keycode) {
-      case DRZ_LPUP:
-        longpress_increase_timeout(5);
-        return false;
-      case DRZ_LPDN:
-        longpress_decrease_timeout(5);
-        return false;
-      case DRZ_LPTG:
-        longpress_toggle();
-        return false;
-      case DRZ_LPON:
-        longpress_enable();
-        return false;
-      case DRZ_LPOFF:
-        longpress_disable();
-        return false;
-
-      case KC_DOT:
-        longpress_flush();
-        if (!longpress_enabled) return true;
-
-        longpress_on(keycode);
-        return false;
-
-      default:
-        longpress_flush();
-        return true;
-    }
-  } else {
-    longpress_flush();
-  }
-
-  return true;
-}
-
-void longpress_increase_timeout(uint16_t amount){
-  longpress_timeout+=amount;
-}
-
-void longpress_decrease_timeout(uint16_t amount){
-  longpress_timeout-=amount;
-}
-
-void longpress_on(uint16_t keycode) {
-  longpress_time = timer_read();
-  longpress_lastkey = keycode;
-}
-
-void longpress_flush(void) {
-
-  if (longpress_lastkey == KC_NO) return;
-
-  uint16_t elapsed = timer_elapsed(longpress_time);
-
-  if (elapsed < longpress_timeout) {
-    if(
-      get_mods() & (
-        MOD_BIT(KC_LSFT)|MOD_BIT(KC_RSFT)
-      )
-    )
-    {
-      unregister_code(KC_LSFT);
-    }
-    register_code(longpress_lastkey);
-    unregister_code(longpress_lastkey);
-    longpress_time = 0;
-    longpress_lastkey = KC_NO;
-    return;
-  }
-
-
-  switch(longpress_lastkey){
-    case KC_COLN:
-      register_code(KC_SCLN);
-      unregister_code(KC_SCLN);
-      break;
-    case KC_DOT:
-      register_code(KC_COMMA);
-      unregister_code(KC_COMMA);
-      break;
-    default:
-      register_code(KC_LSFT);
-      register_code(longpress_lastkey);
-      unregister_code(longpress_lastkey);
-      unregister_code(KC_LSFT);
-      break;
-  }
-
-  longpress_time = 0;
-  longpress_lastkey = KC_NO;
-}
-
-void  longpress_enable(void) {
-    longpress_enabled = true;
-}
-
-void longpress_disable(void) {
-  longpress_enabled = false;
-  longpress_flush();
-}
-
-void longpress_toggle(void) {
-  if (longpress_enabled) {
-    longpress_enabled = false;
-    longpress_flush();
-  }
-  else {
-    longpress_enabled = true;
-  }
-}
-
-bool longpress_state(void) {
-  return longpress_enabled;
-}
 
 bool process_overides(uint16_t keycode, keyrecord_t *record) {
 
@@ -622,6 +483,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   bool returnValue = true;
 
   //TODO: process macros...
+
   #ifdef LONGPRESS_ENABLE
     if(!process_longpress(keycode, record)) {
       return false;
@@ -637,10 +499,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
   return returnValue;
-}
-
-void led_set_user(uint8_t usb_led) {
-
 }
 
 #endif
