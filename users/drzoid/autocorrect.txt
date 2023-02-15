@@ -1,0 +1,9 @@
+thier       -> their
+fitler      -> filter
+lenght      -> length
+ouput       -> output
+widht       -> width
+heigth      -> height
+c3est       -> c'est
+j3ai        -> j'ai
+s3est       -> s'est
