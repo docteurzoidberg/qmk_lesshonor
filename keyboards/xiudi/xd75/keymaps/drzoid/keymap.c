@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_QW] =
     LAYOUT_ortho_5x15(
-      DRZ_LCK,  KC_ESC,   DRZ___1,  DRZ___2,  DRZ___3,  DRZ___4,  DRZ___5,  TO(_MC),  DRZ___6,  DRZ___7,  DRZ___8,  DRZ___9,  DRZ___0,  KC_ESC,   DRZ_LCK,
+      QK_LOCK,  KC_ESC,   DRZ___1,  DRZ___2,  DRZ___3,  DRZ___4,  DRZ___5,  TO(_MC),  DRZ___6,  DRZ___7,  DRZ___8,  DRZ___9,  DRZ___0,  KC_ESC,   QK_LOCK,
       MO(_FN),  KC_LGUI,  DRZ___Q,  DRZ___W,  DRZ___E,  DRZ___R,  DRZ___T,  XXXXXXX,  DRZ___Y,  DRZ___U,  DRZ___I,  DRZ___O,  DRZ___P,  KC_RGUI,  MO(_FN),
       MO(_L3),  KC_LALT,  DRZ___A,  DRZ___S,  DRZ___D,  DRZ___F,  DRZ___G,  XXXXXXX,  DRZ___H,  DRZ___J,  DRZ___K,  DRZ___L,  DRZ_CLN,  KC_RALT,  MO(_L3),
       MO(_L2),  DRZ__LS,  DRZ___Z,  DRZ___X,  DRZ___C,  DRZ___V,  DRZ___B,  XXXXXXX,  DRZ___N,  DRZ___M,  DRZ_SLA,  KC_UP,    DRZ_DOT,  DRZ__RS,  MO(_L2),
@@ -76,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,  KC_MUTE,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    DRZ_RST,  KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_MUTE,  _______,
       _______,  XXXXXXX,  KC_F11,   KC_F12,   KC_F13,   KC_F14,   KC_F15,   XXXXXXX,  KC_F16,   KC_F17,   KC_F18,   KC_F19,   KC_F20,   XXXXXXX,  _______,
       _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,
-      _______,  XXXXXXX,  KC_PSCR,  KC_PAUS,  KC_CALC,  XXXXXXX,  XXXXXXX,  XXXXXXX,  BL_OFF,   BL_ON,    BL_DEC,   RGB_HUI,  BL_INC,   XXXXXXX,  _______,
+      _______,  XXXXXXX,  KC_PSCR,  KC_PAUS,  KC_CALC,  XXXXXXX,  XXXXXXX,  AC_TOGG,  BL_OFF,   BL_ON,    BL_DEC,   RGB_HUI,  BL_INC,   XXXXXXX,  _______,
       _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  RGB_SAI,  RGB_HUD,  RGB_SAD,  XXXXXXX,  _______
     ),
 
@@ -139,7 +139,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void matrix_init_user(void) {
-  #ifdef DRZ_USE_UNICODE
+  #ifdef UNICODE_ENABLE
     set_unicode_input_mode(UNICODE_MODE_WINDOWS);
   #endif
 }
@@ -191,44 +191,46 @@ void matrix_scan_user(void) {
       register_code (KC_RALT); register_code (KC_RSFT); TAP_ONCE (KC_QUOTE); unregister_code (KC_RSFT); unregister_code (KC_RALT); TAP_ONCE (KC_E);
     }
 
-    SEQ_TWO_KEYS (KC_U, KC_L) {
-      set_unicode_input_mode(UNICODE_MODE_LINUX);
-    }
+    #ifdef UNICODE_ENABLE
+        SEQ_TWO_KEYS (KC_U, KC_L) {
+        set_unicode_input_mode(UNICODE_MODE_LINUX);
+        }
 
-    SEQ_TWO_KEYS (KC_U, KC_W) {
-      set_unicode_input_mode(UNICODE_MODE_WINDOWS);
-    }
+        SEQ_TWO_KEYS (KC_U, KC_W) {
+        set_unicode_input_mode(UNICODE_MODE_WINDOWS);
+        }
 
-    SEQ_TWO_KEYS (KC_S, KC_S) {
-      // ¯\_(ツ)_/¯
-      unicode_input_start(); register_hex(0xaf); unicode_input_finish();
-      register_code (KC_LALT);
-      register_code (KC_LCTL);
-      TAP_ONCE (KC_MINS);
-      unregister_code (KC_LCTL);
-      unregister_code (KC_LALT);
+        SEQ_TWO_KEYS (KC_S, KC_S) {
+        // ¯\_(ツ)_/¯
+        unicode_input_start(); register_hex(0xaf); unicode_input_finish();
+        register_code (KC_LALT);
+        register_code (KC_LCTL);
+        TAP_ONCE (KC_MINS);
+        unregister_code (KC_LCTL);
+        unregister_code (KC_LALT);
 
-      register_code (KC_RSFT); TAP_ONCE (KC_8); unregister_code (KC_RSFT);
-      unicode_input_start (); register_hex(0x30c4); unicode_input_finish();
-      register_code (KC_RSFT); TAP_ONCE (KC_9); TAP_ONCE(KC_7); unregister_code (KC_RSFT);
-      unicode_input_start (); register_hex(0xaf); unicode_input_finish();
-    }
+        register_code (KC_RSFT); TAP_ONCE (KC_8); unregister_code (KC_RSFT);
+        unicode_input_start (); register_hex(0x30c4); unicode_input_finish();
+        register_code (KC_RSFT); TAP_ONCE (KC_9); TAP_ONCE(KC_7); unregister_code (KC_RSFT);
+        unicode_input_start (); register_hex(0xaf); unicode_input_finish();
+        }
 
-    SEQ_TWO_KEYS (KC_S, KC_F) {
-      // 凸(ツ)凸
-      unicode_input_start(); register_hex(0x51F8); unicode_input_finish();
-      register_code (KC_RSFT); TAP_ONCE (KC_8); unregister_code (KC_RSFT);
-      unicode_input_start (); register_hex(0x30c4); unicode_input_finish();
-      register_code (KC_RSFT); TAP_ONCE (KC_9); unregister_code (KC_RSFT);
-      unicode_input_start (); register_hex(0x51F8); unicode_input_finish();
-    }
+        SEQ_TWO_KEYS (KC_S, KC_F) {
+        // 凸(ツ)凸
+        unicode_input_start(); register_hex(0x51F8); unicode_input_finish();
+        register_code (KC_RSFT); TAP_ONCE (KC_8); unregister_code (KC_RSFT);
+        unicode_input_start (); register_hex(0x30c4); unicode_input_finish();
+        register_code (KC_RSFT); TAP_ONCE (KC_9); unregister_code (KC_RSFT);
+        unicode_input_start (); register_hex(0x51F8); unicode_input_finish();
+        }
 
-    SEQ_TWO_KEYS (KC_S, KC_L) {
-      // λ
-      unicode_input_start();
-      register_hex(0x03bb);
-      unicode_input_finish();
-    }
+        SEQ_TWO_KEYS (KC_S, KC_L) {
+        // λ
+        unicode_input_start();
+        register_hex(0x03bb);
+        unicode_input_finish();
+        }
+    #endif
     };
 };
 
@@ -465,11 +467,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   //TODO: process macros...
 
-  #ifdef LONGPRESS_ENABLE
-    if(!process_longpress(keycode, record)) {
-      return false;
-    }
-  #endif
+    #ifdef DRZ_LONGPRESS_ENABLED
+        if(!process_longpress(keycode, record)) {
+            return false;
+        }
+    #endif
 
   if(!process_overides(keycode, record)) {
     returnValue = false;

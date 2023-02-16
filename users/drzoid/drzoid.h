@@ -1,7 +1,10 @@
-#ifndef USERSPACE
-#define USERSPACE
+#pragma once
 
 #include "quantum.h"
+
+#ifdef DRZ_LONGPRESS_ENABLED
+    #include "process_longpress.h"
+#endif
 
 enum userspace_custom_keycodes {
   QWERTY = SAFE_RANGE,
@@ -33,4 +36,4 @@ void my_custom_function(void);
     void drz_rgblight_set_green(void);
     void drz_rgblight_set_hsv(uint8_t h, uint8_t s, uint8_t v);
 #endif
-#endif
+

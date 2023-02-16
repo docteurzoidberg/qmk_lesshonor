@@ -1,9 +1,29 @@
-thier       -> their
-fitler      -> filter
-lenght      -> length
-ouput       -> output
-widht       -> width
-heigth      -> height
-c3est       -> c'est
-j3ai        -> j'ai
-s3est       -> s'est
+fitler          -> filter
+lenght          -> length
+ouput           -> output
+widht           -> width
+heigth          -> height
+yeild           -> yield
+ovveride        -> override
+:zont           -> ils ont
+:zavaient       -> ils avaient
+:zavais         -> ils avaient
+:gnifik         -> magnifique
+:tarplu         -> plus tard
+:mouai:         -> je suis sceptique
+:chepa:         -> je ne sais pas
+:pomal:         -> pas mal
+:kapa:          -> qu'a ne pas
+:jveu:          -> je veux
+:jfe:           -> je fais
+:koa:           -> quoi
+:zill           -> panda
+:tinpu          -> oulala !
+:fechier        -> zut alors !
+:beuh           -> gazon magique
+:ben            -> et bien
+:moa            -> moi
+:petelesburnes  -> cela me chagrine profondement
+:peteburnes     -> agacant
+
+
