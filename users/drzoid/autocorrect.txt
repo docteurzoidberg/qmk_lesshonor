@@ -17,7 +17,7 @@ ovveride        -> override
 :jveu:          -> je veux
 :jfe:           -> je fais
 :koa:           -> quoi
-:zill           -> panda
+:zill:          -> panda
 :tinpu          -> oulala !
 :fechier        -> zut alors !
 :beuh           -> gazon magique

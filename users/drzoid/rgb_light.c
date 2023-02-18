@@ -14,7 +14,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "drzoid.h"
+#include "rgb_light.h"
 
-#define DRZ_QWERTY_INTL_OS
-#define LEADER_TIMEOUT 1000
+void drz_rgblight_set_hsv(uint8_t h, uint8_t s, uint8_t v) {
+    rgblight_sethsv_noeeprom_old(h,s,v);
+}
+
+void drz_rgblight_set_cyan() {
+    rgblight_sethsv_noeeprom_old(HSV_CYAN);
+}
+
+void drz_rgblight_set_orange() {
+    rgblight_sethsv_noeeprom_old(HSV_ORANGE);
+}
+
+void drz_rgblight_set_red() {
+    rgblight_sethsv_noeeprom_old(HSV_RED);
+}
+
+void drz_rgblight_set_yellow() {
+    rgblight_sethsv_noeeprom_old(HSV_YELLOW);
+}
+
+void drz_rgblight_set_green() {
+    rgblight_sethsv_noeeprom_old(HSV_GREEN);
+}

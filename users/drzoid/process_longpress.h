@@ -14,8 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROCESS_LONGPRESS_H
-#define PROCESS_LONGPRESS_H
+#pragma once
 
 #include "quantum.h"
 
@@ -35,10 +34,7 @@ void longpress_timer_report(void);
 void longpress_on(uint16_t keycode);
 void longpress_flush(void);
 
-
 uint16_t longpress_time;
 uint16_t longpress_timeout;
 uint16_t longpress_lastkey;
 bool longpress_enabled;
-
-#endif

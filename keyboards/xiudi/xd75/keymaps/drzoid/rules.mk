@@ -1,9 +1,15 @@
+#WARNING avr uc ^^'
+#-> disable many stuff as possible for firmware size
+
 #drz custom user files features
 DRZ_USE_LONGPRESS = yes
+DRZ_USE_MACROS = yes
 DRZ_USE_AUTOCORRECTION = yes
 DRZ_USE_UNICODE = yes
+DRZ_USE_RGBLIGHT = yes
+DRZ_USE_WPM = yes
 
-#features
+#qmk features
 SWAP_HANDS_ENABLE = yes
 LEADER_ENABLE = yes
 TAPDANCE_ENABLE = yes

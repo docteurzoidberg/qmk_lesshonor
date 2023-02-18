@@ -19,6 +19,10 @@ static bool my_cool_effect(effect_params_t* params) {
   return rgb_matrix_check_finished_leds(led_max);
 }
 
+#ifdef DRZ_WPM_ENABLED
+
+#endif
+
 // e.g: A more complex effect, relying on external methods and state, with
 // dedicated init and run methods
 
@@ -88,7 +92,7 @@ static void my_fire_effect_init(effect_params_t* params) {
 
 static bool my_fire_effect_run(effect_params_t* params) {
   //uint16_t timer      = scale16by8(g_rgb_timer, rgb_matrix_config.speed / 4);
-  uint16_t timer = sync_timer_read32();
+  uint16_t timer = timer_read();
 
   int begin_time = timer > starting_speed ? 1000 : (int) (timer * 1000 / starting_speed);
 

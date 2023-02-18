@@ -1,32 +1,16 @@
-# My xd75 mirrored keymap, updated for the id75
+# DrZoid's "hand swappable" keymap for the XD75
 
-## Features
+note: this heavyly use my user shared code 
++ layout and keymap is the same between my two 5x15 ortho keyboards (ymdk/id75 and xiudi/xd75)
 
-### Autocorrect
-- code
-- french
-- english
- 
-### Swap hands
-- underglow color indicator
-- lockable
+## Keyboard specific
 
-### Unicode
-- keycode to switch from unix/windows mode
+DRZ_USE_RGBMATRIX = yes
 
-### RGB matrix !
-- "Layer" base led key layer
-- key indicators?
-- rgb reactive animation on typing
-- cycling "screensaver" animations on idle 
-- Underglow for layer indicator
+## Keymap specific 
+nothing's special
 
-### Macros
-- dynamic macro recording 1-3
-- secrets (login, master pass)
-
-### Leader key
-- emojis
-- accents
-
-### Longpress
+## Files
+rules.mk -> features flags for this specific keymap+keyboard
+config.h -> config for this specific keymap+keyboard
+keymap.c -> keymap
