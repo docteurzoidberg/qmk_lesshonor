@@ -2,9 +2,11 @@ SRC += drzoid.c
 MANUFACTURER= drzoid
 
 DRZ_USE_SECRETS ?= yes
-ifneq ("$(wildcard $(USER_PATH)/secrets.c)","")
-  SRC += $(USER_PATH)/secrets.c
-  OPT_DEFS += -DDRZ_SECRETS_ENABLED
+ifeq ($(strip $(DRZ_USE_SECRETS)), yes)
+	ifneq ("$(wildcard $(USER_PATH)/secrets.c)","")
+		SRC += $(USER_PATH)/secrets.c
+		OPT_DEFS += -DDRZ_SECRETS_ENABLED
+	endif
 endif
 
 DRZ_USE_LONGPRESS ?= yes

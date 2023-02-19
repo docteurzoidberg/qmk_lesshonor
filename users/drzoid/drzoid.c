@@ -338,6 +338,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
   #endif
 */
+  #ifdef DRZ_SECRETS_ENABLED
+    if(!process_record_secrets(keycode, record)) {
+      return false;
+    }
+  #endif
   #ifdef DRZ_MACROS_ENABLED
     if(!process_macros_user(keycode, record)) {
       return false;

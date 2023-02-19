@@ -13,6 +13,10 @@ enum userspace_custom_keycodes {
   DRZ_RIGHT_SHIFT_CAPSLOCK,
   DRZ_ACCENTS_TAPDANCE,
   DRZ_EMOJIS_TAPDANCE,
+  DRZ_MACRO_COMMENT_START,
+  DRZ_MACRO_COMMENT_END,
+  DRZ_MACRO_TEST_SENDSTRING,
+  DRZ_MACRO_EVE,
   DRZ_SECRET_1,                             // test1
   DRZ_SECRET_2,                             // test2
   DRZ_SECRET_3,                             // test3
@@ -25,13 +29,6 @@ enum userspace_custom_keycodes {
   DRZ_LPON,
   DRZ_LPOFF,
   NEW_SAFE_RANGE // use "NEWPLACEHOLDER for keymap specific codes
-};
-
-enum custom_macros {
-  DRZ_MACRO_COMMENT_START,
-  DRZ_MACRO_COMMENT_END,
-  DRZ_MACRO_TEST_SENDSTRING,
-  DRZ_MACRO_EVE
 };
 
 #define _QW 0
@@ -159,6 +156,10 @@ uint8_t _layer_lock;
 #define DRZ_PND RALT(LSFT(KC_4))
 #define DRZ_DEG RALT(LSFT(KC_SCLN))
 #define DRZ_EUR RALT(KC_5)
+
+#ifdef DRZ_SECRETS_ENABLED
+    bool process_record_secrets(uint16_t keycode, keyrecord_t *record);
+#endif
 
 #ifdef DRZ_LONGPRESS_ENABLED
     #include "process_longpress.h"
