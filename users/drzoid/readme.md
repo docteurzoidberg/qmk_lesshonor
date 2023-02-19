@@ -1,30 +1,40 @@
 ## Features
 
 ### Autocorrect
-- code
-- french
-- english
+[x] feature activation
+[ ] dev dictionnary
+[ ] english dictionnary?
+[ ] french dictionnary?
  
 ### Swap hands
-- underglow color indicator
-- lockable
+[x] feature activation
+[x] underglow color indicator
+[ ] lockable ? (todo: test using QK_LOCK)
 
 ### Unicode
-- keycode to switch from unix/windows mode
+[x] feature activation
+[ ] keycode to switch from unix/windows mode
 
-### RGB matrix !
-- "Layer" base led key layer
-- key indicators?
-- rgb reactive animation on typing
-- cycling "screensaver" animations on idle 
-- Underglow for layer indicator
+### RGBLIGHT
+[x] Underglow for layer indicator using rgblight
+
+### RGBMATRIX
+//TODO
 
 ### Macros
-- dynamic macro recording 1-3
-- secrets (login, master pass)
+[x] feature activation
+
+### Dynamic Macros
+[x] feature activation
+
+### Secrets Macros
+[x] feature activation
 
 ### Leader key
+[x] feature activation
 - emojis
 - accents
 
 ### Longpress
+[x] feature activation
+
