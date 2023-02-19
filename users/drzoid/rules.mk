@@ -3,15 +3,15 @@ MANUFACTURER= drzoid
 
 DRZ_USE_SECRETS ?= yes
 ifeq ($(strip $(DRZ_USE_SECRETS)), yes)
-	ifneq ("$(wildcard $(USER_PATH)/secrets.c)","")
-		SRC += $(USER_PATH)/secrets.c
+	ifneq ("$(wildcard $(USER_PATH)/features/secrets.c)","")
+		SRC += $(USER_PATH)/features/secrets.c
 		OPT_DEFS += -DDRZ_SECRETS_ENABLED
 	endif
 endif
 
 DRZ_USE_LONGPRESS ?= yes
 ifeq ($(strip $(DRZ_USE_LONGPRESS)), yes)
-  SRC += $(USER_PATH)/process_longpress.c
+  SRC += $(USER_PATH)/features/process_longpress.c
   OPT_DEFS += -DDRZ_LONGPRESS_ENABLED
 endif
 
@@ -34,8 +34,12 @@ endif
 
 DRZ_USE_UNICODE ?= yes
 ifeq ($(strip $(DRZ_USE_UNICODE)), yes)
-  UNICODE_ENABLE = yes
+	UNICODE_ENABLE        := no
+  UNICODEMAP_ENABLE     := no
+  UCIS_ENABLE           := no
+  UNICODE_COMMON        := yes
   OPT_DEFS += -DDRZ_UNICODE_ENABLED
+	SRC += $(USER_PATH)/features/unicode.c
 endif
 
 DRZ_USE_RGBMATRIX ?= no
@@ -47,7 +51,7 @@ endif
 DRZ_USE_RGBLIGHT ?= no
 ifeq ($(strip $(RGBLIGHT_ENABLE)), yes)
 	ifeq ($(strip $(DRZ_USE_RGBLIGHT)), yes)
-		SRC += $(USER_PATH)/rgb_light.c
+		SRC += $(USER_PATH)/features/rgb_light.c
 		OPT_DEFS += -DDRZ_RGBLIGHT_ENABLED
 	endif
 endif

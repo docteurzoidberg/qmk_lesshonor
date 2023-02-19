@@ -2,11 +2,42 @@
 
 uint8_t _layer_lock=_QW;
 
-void matrix_init_user(void) {
-  #ifdef UNICODE_ENABLE
-    set_unicode_input_mode(UNICODE_MODE_WINDOWS);
-  #endif
+//Drzoid: stolen from drashna's
+/**
+ * @brief Tap keycode, with no mods
+ *
+ * @param kc keycode to use
+ */
+void tap_code16_nomods(uint16_t kc) {
+    uint8_t temp_mod = get_mods();
+    clear_mods();
+    clear_oneshot_mods();
+    tap_code16(kc);
+    set_mods(temp_mod);
 }
+
+void matrix_init_user(void) {
+set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
+}
+
+void keyboard_post_init_user(void) {
+//#if defined(CUSTOM_RGBLIGHT)
+//    keyboard_post_init_rgb_light();
+//#endif
+//#if defined(CUSTOM_RGB_MATRIX)
+//    keyboard_post_init_rgb_matrix();
+//#endif
+//#if defined(SPLIT_KEYBOARD) && defined(SPLIT_TRANSACTION_IDS_USER)
+//    keyboard_post_init_transport_sync();
+//#endif
+//#ifdef I2C_SCANNER_ENABLE
+//    keyboard_post_init_i2c();
+//#endif
+//#ifdef DRZ_UNICODE_ENABLE
+    keyboard_post_init_unicode();
+//#endif
+}
+
 
 LEADER_EXTERNS();
 
@@ -353,6 +384,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
   #endif
+
+    if(!process_record_unicode(keycode, record)) {
+      return false;
+    }
+
 
   bool returnValue = true;
   if(!process_overides(keycode, record)) {

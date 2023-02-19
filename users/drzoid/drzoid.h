@@ -22,6 +22,21 @@ enum userspace_custom_keycodes {
   DRZ_SECRET_3,                             // test3
   DRZ_SECRET_4,                             // test4
   DRZ_SECRET_5,                             // test5
+  UC_FLIP,                                 // (ಠ痊ಠ)┻━┻
+  UC_TABL,                                 // ┬─┬ノ( º _ ºノ)
+  UC_SHRG,                                 // ¯\_(ツ)_/¯
+  UC_DISA,                                 // ಠ_ಠ
+  UC_IRNY,
+  UC_CLUE,
+  DRZ_UC_MODE_NONE,
+  DRZ_UC_MODE_WIDE,
+  DRZ_UC_MODE_SCRIPT,
+  DRZ_UC_MODE_BLOCKS,
+  DRZ_UC_MODE_REGIONAL,
+  DRZ_UC_MODE_AUSSIE,
+  DRZ_UC_MODE_ZALGO,
+  DRZ_UC_MODE_SUPER,
+  DRZ_UC_MODE_COMIC,
   DRZ_LPUP,
   DRZ_LPDN,
   DRZ_LPRP,
@@ -48,6 +63,10 @@ uint8_t _layer_lock;
 #define TAP_ONCE(code)  \
   register_code (code); \
   unregister_code (code)
+
+void tap_code16_nomods(uint16_t kc);
+
+#define UNICODE_SELECTED_MODES UNICODE_MODE_WINCOMPOSE
 
 //Unicode chars
 #ifdef UNICODE_ENABLE
@@ -162,9 +181,14 @@ uint8_t _layer_lock;
 #endif
 
 #ifdef DRZ_LONGPRESS_ENABLED
-    #include "process_longpress.h"
+    #include "features/process_longpress.h"
 #endif
 
 #ifdef DRZ_RGBLIGHT_ENABLED
-    #include "rgb_light.h"
+    #include "features/rgb_light.h"
+#endif
+
+#ifdef DRZ_UNICODE_ENABLED
+  bool process_record_unicode(uint16_t keycode, keyrecord_t *record);
+  void keyboard_post_init_unicode(void);
 #endif
