@@ -98,46 +98,6 @@ void matrix_scan_user(void) {
     };
 };
 
-/*\ ------------------------------------------------------*/
-//  MACRO ACTIONS
-//  - Comment start:  / *
-//  - Comment end:    * /
-/*\-------------------------------------------------------*/
-/*
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
-	switch (id) {
-
-    //->  * /
-    case DRZ_MACRO_COMMENT_START:
-      if(IS_PRESSED(record->event)) {
-        return MACRO(T(KC_KP_SLASH), T(KC_KP_ASTERISK), END);
-      }
-    break;
-
-    //->  / *
-    case DRZ_MACRO_COMMENT_END:
-      if(IS_PRESSED(record->event)) {
-        return MACRO(T(KC_KP_ASTERISK), T(KC_KP_SLASH), KC_END);
-      }
-    break;
-
-    case DRZ_MACRO_EVE:
-      if(IS_PRESSED(record->event)) {
-        return MACRO(D(KC_LEFT_CTRL), T(KC_UP), U(KC_LEFT_CTRL), T(KC_ENTER), KC_END);
-      }
-    break;
-
-    case DRZ_MACRO_TEST_SENDSTRING:
-      if(IS_PRESSED(record->event)) {
-        SEND_STRING("1234567890!@#$%^&*()qwertyuiopQWERTYUIOPasdfghjklASDFGHJKL:;zxcvbnmZXCVBNM/\\|.,~+-' \"`_[]<>{}|?");
-        return false;
-      }
-    break;
-	}
-	return MACRO_NONE;
-}
-*/
-
 void press_key_with_level_mods(uint16_t key) {
   const uint8_t interesting_mods = MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_RIGHT_SHIFT) | MOD_BIT(KC_RIGHT_ALT);
 
@@ -216,10 +176,6 @@ static bool wake_dead_key(uint16_t keycode, keyrecord_t* record) {
     return true;
 }
 
-/*\ ------------------------------------------------------*/
-//  LAYER CHANGE ACTIONS
-//  - L2, L3, and FN layers to RGB underglow mapping
-/*\-------------------------------------------------------*/
 layer_state_t layer_state_set_user(layer_state_t state) {
   _state=state;
 
@@ -314,13 +270,13 @@ bool process_rgb_user(const uint16_t keycode, const keyrecord_t *record) {
       case MO(_M3):
         break;
       case DRZ__SH:
-        #ifdef DRZ_USE_RGBLIGHT
-        drz_rgblight_set_cyan();
+        #ifdef DRZ_RGBLIGHT_ENABLED
+          drz_rgblight_set_cyan();
         #endif
         break;
       default:
-        #ifdef DRZ_USE_RGBLIGHT
-        rgblight_setrgb(64,64,64);
+        #ifdef DRZ_RGBLIGHT_ENABLED
+          rgblight_setrgb(64,64,64);
         #endif
         break;
     }
@@ -331,9 +287,55 @@ bool process_rgb_user(const uint16_t keycode, const keyrecord_t *record) {
   return true;
 }
 
+bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    //->  * /
+    case DRZ_MACRO_COMMENT_START:
+      if(IS_PRESSED(record->event)) {
+        //return MACRO(T(KC_KP_SLASH), T(KC_KP_ASTERISK), END);
+        tap_code(KC_KP_SLASH);
+        tap_code(KC_KP_ASTERISK);
+        return false;
+      }
+    break;
+    //->  / *
+    case DRZ_MACRO_COMMENT_END:
+      if(IS_PRESSED(record->event)) {
+        //return MACRO(T(KC_KP_ASTERISK), T(KC_KP_SLASH), KC_END);
+        tap_code(KC_KP_ASTERISK);
+        tap_code(KC_KP_SLASH);
+        return false;
+      }
+    break;
+    //ctrl+up then enter
+    case DRZ_MACRO_EVE:
+      if(IS_PRESSED(record->event)) {
+        //return MACRO(D(KC_LEFT_CTRL), T(KC_UP), U(KC_LEFT_CTRL), T(KC_ENTER), KC_END);
+        register_code(KC_LEFT_CTRL);
+        tap_code(KC_UP);
+        unregister_code(KC_LEFT_CTRL);
+        tap_code(KC_ENTER);
+        return false;
+      }
+    break;
+    //test macro for keymap check
+    case DRZ_MACRO_TEST_SENDSTRING:
+      if(IS_PRESSED(record->event)) {
+        SEND_STRING("1234567890!@#$%^&*()qwertyuiopQWERTYUIOPasdfghjklASDFGHJKL:;zxcvbnmZXCVBNM/\\|.,~+-' \"`_[]<>{}|?");
+        return false;
+      }
+    break;
+  }
+  return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   bool returnValue = true;
-  //TODO: process macros...
+  #ifdef DRZ_MACROS_ENABLED
+    if(!process_macros_user(keycode, record)) {
+      return false;
+    }
+  #endif
   #ifdef DRZ_LONGPRESS_ENABLED
     if(!process_longpress(keycode, record)) {
       return false;
@@ -347,4 +349,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return returnValue;
 }
-

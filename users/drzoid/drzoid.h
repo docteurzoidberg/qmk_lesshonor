@@ -13,12 +13,6 @@ enum userspace_custom_keycodes {
   DRZ_RIGHT_SHIFT_CAPSLOCK,
   DRZ_ACCENTS_TAPDANCE,
   DRZ_EMOJIS_TAPDANCE,
-  /*
-  DRZ_MACRO_COMMENT_START,
-  DRZ_MACRO_COMMENT_END,
-  DRZ_MACRO_TEST_SENDSTRING,
-  DRZ_MACRO_EVE,
-  */
   DRZ_LPUP,
   DRZ_LPDN,
   DRZ_LPRP,
@@ -160,10 +154,6 @@ uint8_t _layer_lock;
 #define DRZ_PND RALT(LSFT(KC_4))
 #define DRZ_DEG RALT(LSFT(KC_SCLN))
 #define DRZ_EUR RALT(KC_5)
-
-#ifdef DRZ_MACROS_ENABLED
-    #include "process_macros.h"
-#endif
 
 #ifdef DRZ_LONGPRESS_ENABLED
     #include "process_longpress.h"

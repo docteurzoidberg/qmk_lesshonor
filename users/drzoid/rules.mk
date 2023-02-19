@@ -9,7 +9,6 @@ endif
 
 DRZ_USE_MACROS ?= yes
 ifeq ($(strip $(DRZ_USE_MACROS)), yes)
-  SRC += $(USER_PATH)/process_macros.c
   OPT_DEFS += -DDRZ_MACROS_ENABLED
 endif
 
