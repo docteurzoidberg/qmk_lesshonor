@@ -13,6 +13,11 @@ enum userspace_custom_keycodes {
   DRZ_RIGHT_SHIFT_CAPSLOCK,
   DRZ_ACCENTS_TAPDANCE,
   DRZ_EMOJIS_TAPDANCE,
+  DRZ_SECRET_1,                             // test1
+  DRZ_SECRET_2,                             // test2
+  DRZ_SECRET_3,                             // test3
+  DRZ_SECRET_4,                             // test4
+  DRZ_SECRET_5,                             // test5
   DRZ_LPUP,
   DRZ_LPDN,
   DRZ_LPRP,

@@ -330,7 +330,14 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  bool returnValue = true;
+/*
+  #ifdef DYNAMIC_MACRO_USER_CALL
+    uint16_t macro_kc = (keycode == MO(_DYN) ? DM_RSTP : keycode);
+    if (!process_record_dynamic_macro(macro_kc, record)) {
+      return false;
+    }
+  #endif
+*/
   #ifdef DRZ_MACROS_ENABLED
     if(!process_macros_user(keycode, record)) {
       return false;
@@ -341,6 +348,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
   #endif
+
+  bool returnValue = true;
   if(!process_overides(keycode, record)) {
     returnValue = false;
   }

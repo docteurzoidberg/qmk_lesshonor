@@ -1,6 +1,12 @@
 SRC += drzoid.c
 MANUFACTURER= drzoid
 
+DRZ_USE_SECRETS ?= yes
+ifneq ("$(wildcard $(USER_PATH)/secrets.c)","")
+  SRC += $(USER_PATH)/secrets.c
+  OPT_DEFS += -DDRZ_SECRETS_ENABLED
+endif
+
 DRZ_USE_LONGPRESS ?= yes
 ifeq ($(strip $(DRZ_USE_LONGPRESS)), yes)
   SRC += $(USER_PATH)/process_longpress.c
@@ -10,6 +16,12 @@ endif
 DRZ_USE_MACROS ?= yes
 ifeq ($(strip $(DRZ_USE_MACROS)), yes)
   OPT_DEFS += -DDRZ_MACROS_ENABLED
+endif
+
+DRZ_USE_DYNAMICMACROS ?= yes
+ifeq ($(strip $(DRZ_USE_DYNAMICMACROS)), yes)
+  DYNAMIC_MACRO_ENABLE = yes
+  OPT_DEFS += -DDRZ_DYNAMICMACROS_ENABLED
 endif
 
 DRZ_USE_AUTOCORRECTION ?= yes
@@ -43,6 +55,3 @@ ifeq ($(strip $(DRZ_USE_WPM)), yes)
   WPM_ENABLE = yes
   OPT_DEFS += -DDRZ_WPM_ENABLED
 endif
-
-
-
