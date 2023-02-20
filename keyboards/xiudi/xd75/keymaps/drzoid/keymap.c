@@ -8,10 +8,6 @@ This layout:
 
 #include "drzoid.h"
 
-#define DRZ_UM0 DRZ_UC_MODE_NONE
-#define DRZ_UM1 DRZ_UC_MODE_AUSSIE
-#define DRZ_UM2 DRZ_UC_MODE_REGIONAL
-
 //static bool isAltSetBySpecialTab = false;
 const keypos_t hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
   {{14, 0}, {13, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}, {7, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {1, 0}, {0, 0}},
@@ -35,10 +31,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QW] =
     LAYOUT_ortho_5x15(
       QK_LOCK,  KC_ESC,   DRZ___1,  DRZ___2,  DRZ___3,  DRZ___4,  DRZ___5,  TO(_MC),  DRZ___6,  DRZ___7,  DRZ___8,  DRZ___9,  DRZ___0,  KC_ESC,   QK_LOCK,
-      MO(_FN),  KC_LGUI,  DRZ___Q,  DRZ___W,  DRZ___E,  DRZ___R,  DRZ___T,  XXXXXXX,  DRZ___Y,  DRZ___U,  DRZ___I,  DRZ___O,  DRZ___P,  KC_RGUI,  MO(_FN),
-      MO(_L3),  KC_LALT,  DRZ___A,  DRZ___S,  DRZ___D,  DRZ___F,  DRZ___G,  XXXXXXX,  DRZ___H,  DRZ___J,  DRZ___K,  DRZ___L,  DRZ_CLN,  KC_RALT,  MO(_L3),
-      MO(_L2),  DRZ__LS,  DRZ___Z,  DRZ___X,  DRZ___C,  DRZ___V,  DRZ___B,  XXXXXXX,  DRZ___N,  DRZ___M,  DRZ_SLA,  KC_UP,    DRZ_DOT,  DRZ__RS,  MO(_L2),
-      DRZ__SH,  KC_LCTL,  KC_LEAD,  KC_GRV,   KC_MENU,  KC_TAB,   DRZ_SPA,  DRZ_ENT,  DRZ_SPA,  DRZ_BSP,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_RCTL,  DRZ__SH
+      MO(_FN),  KC_LGUI,  DRZ___Q,  DRZ___W,  DRZ___E,  DRZ___R,  DRZ___T,  DRZ_LK1,  DRZ___Y,  DRZ___U,  DRZ___I,  DRZ___O,  DRZ___P,  KC_RGUI,  MO(_FN),
+      MO(_L3),  KC_LALT,  DRZ___A,  DRZ___S,  DRZ___D,  DRZ___F,  DRZ___G,  DRZ_LK2,  DRZ___H,  DRZ___J,  DRZ___K,  DRZ___L,  DRZ_CLN,  KC_RALT,  MO(_L3),
+      MO(_L2),  DRZ__LS,  DRZ___Z,  DRZ___X,  DRZ___C,  DRZ___V,  DRZ___B,  DRZ_LK3,  DRZ___N,  DRZ___M,  DRZ_SLA,  KC_UP,    DRZ_DOT,  DRZ__RS,  MO(_L2),
+      DRZ__SH,  KC_LCTL,  QK_LEAD,  KC_GRV,   KC_MENU,  KC_TAB,   DRZ_SPA,  DRZ_ENT,  DRZ_SPA,  DRZ_BSP,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_RCTL,  DRZ__SH
     ),
 
 
@@ -47,10 +43,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_FN] =
     LAYOUT_ortho_5x15(
       _______,  KC_MUTE,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    DRZ_RST,  KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_MUTE,  _______,
-      _______,  XXXXXXX,  KC_F11,   KC_F12,   KC_F13,   KC_F14,   KC_F15,   XXXXXXX,  KC_F16,   KC_F17,   KC_F18,   KC_F19,   KC_F20,   DRZ_UM2,  _______,
-      _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  DRZ_UM1,  _______,
-      _______,  XXXXXXX,  KC_PSCR,  KC_PAUS,  KC_CALC,  XXXXXXX,  XXXXXXX,  AC_TOGG,  BL_OFF,   BL_ON,    BL_DEC,   RGB_HUI,  BL_INC,   DRZ_UM0,  _______,
-      _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  RGB_SAI,  RGB_HUD,  RGB_SAD,  XXXXXXX,  _______
+      _______,  XXXXXXX,  KC_F11,   KC_F12,   KC_F13,   KC_F14,   KC_F15,   XXXXXXX,  KC_F16,   KC_F17,   KC_F18,   KC_F19,   KC_F20,   XXXXXXX,  _______,
+      _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,
+      _______,  XXXXXXX,  KC_PSCR,  KC_PAUS,  KC_CALC,  XXXXXXX,  XXXXXXX,  AC_TOGG,  BL_OFF,   BL_ON,    BL_DEC,   RGB_HUI,  BL_INC,   XXXXXXX,  _______,
+      _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  DRZ_UM0,  XXXXXXX,  XXXXXXX,  RGB_SAI,  RGB_HUD,  RGB_SAD,  XXXXXXX,  _______
     ),
 
   //LAYER 2

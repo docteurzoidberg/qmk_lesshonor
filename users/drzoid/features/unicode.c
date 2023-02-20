@@ -335,36 +335,36 @@ bool process_record_zalgo(uint16_t keycode, keyrecord_t *record) {
 
 bool process_record_unicode(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case UC_FLIP: // (ノಠ痊ಠ)ノ彡┻━┻
+        case DRZ_UC_FLIP: // (ノಠ痊ಠ)ノ彡┻━┻
             if (record->event.pressed) {
                 send_unicode_string("(ノಠ痊ಠ)ノ彡┻━┻");
             }
             break;
 
-        case UC_TABL: // ┬─┬ノ( º _ ºノ)
+        case DRZ_UC_TABL: // ┬─┬ノ( º _ ºノ)
             if (record->event.pressed) {
                 send_unicode_string("┬─┬ノ( º _ ºノ)");
             }
             break;
 
-        case UC_SHRG: // ¯\_(ツ)_/¯
+        case DRZ_UC_SHRG: // ¯\_(ツ)_/¯
             if (record->event.pressed) {
                 send_unicode_string("¯\\_(ツ)_/¯");
             }
             break;
 
-        case UC_DISA: // ಠ_ಠ
+        case DRZ_UC_DISA: // ಠ_ಠ
             if (record->event.pressed) {
                 send_unicode_string("ಠ_ಠ");
             }
             break;
 
-        case UC_IRNY: // ⸮
+        case DRZ_UC_IRNY: // ⸮
             if (record->event.pressed) {
                 register_unicode(0x2E2E);
             }
             break;
-        case UC_CLUE: // ‽
+        case DRZ_UC_CLUE: // ‽
             if (record->event.pressed) {
                 register_unicode(0x203D);
             }

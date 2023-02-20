@@ -22,6 +22,7 @@
 
 #define DRZ_QWERTY_INTL_OS
 #define LEADER_TIMEOUT 1000
+#define MACRO_TIMER 5
 
 //DrZoid> I don't know why, but this is making an error disappear at linking the hex file...
 //cf: https://tppt.eu/35j49zemMX2KH7/direct.png

@@ -22,12 +22,15 @@ enum userspace_custom_keycodes {
   DRZ_SECRET_3,                             // test3
   DRZ_SECRET_4,                             // test4
   DRZ_SECRET_5,                             // test5
-  UC_FLIP,                                 // (ಠ痊ಠ)┻━┻
-  UC_TABL,                                 // ┬─┬ノ( º _ ºノ)
-  UC_SHRG,                                 // ¯\_(ツ)_/¯
-  UC_DISA,                                 // ಠ_ಠ
-  UC_IRNY,
-  UC_CLUE,
+  DRZ_LEADER_SEQ_1,
+  DRZ_LEADER_SEQ_2,
+  DRZ_LEADER_SEQ_3,
+  DRZ_UC_FLIP,                              // (ಠ痊ಠ)┻━┻
+  DRZ_UC_TABL,                              // ┬─┬ノ( º _ ºノ)
+  DRZ_UC_SHRG,                              // ¯\_(ツ)_/¯
+  DRZ_UC_DISA,                              // ಠ_ಠ
+  DRZ_UC_IRNY,
+  DRZ_UC_CLUE,
   DRZ_UC_MODE_NONE,
   DRZ_UC_MODE_WIDE,
   DRZ_UC_MODE_SCRIPT,
@@ -80,6 +83,7 @@ void tap_code16_nomods(uint16_t kc);
 #endif
 
 //uni-sized keycodes for keymap uses
+
 #define DRZ_ENT  KC_ENTER
 #define DRZ_BSP  KC_BACKSPACE
 #define DRZ_SPA  KC_SPACE
@@ -101,6 +105,20 @@ void tap_code16_nomods(uint16_t kc);
 #define DRZ_TST  DRZ_MACRO_TEST_SENDSTRING
 #define DRZ_EVE  DRZ_MACRO_EVE
 #define DRZ_ATB  LALT(KC_TAB)
+
+#define DRZ_UM0 DRZ_UC_MODE_NONE
+#define DRZ_UM1 DRZ_UC_MODE_WIDE
+#define DRZ_UM2 DRZ_UC_MODE_SCRIPT
+#define DRZ_UM3 DRZ_UC_MODE_BLOCKS
+#define DRZ_UM4 DRZ_UC_MODE_REGIONAL
+#define DRZ_UM5 DRZ_UC_MODE_AUSSIE
+#define DRZ_UM6 DRZ_UC_MODE_ZALGO
+#define DRZ_UM7 DRZ_UC_MODE_SUPER
+#define DRZ_UM8 DRZ_UC_MODE_COMIC
+
+#define DRZ_LK1 DRZ_LEADER_SEQ_1
+#define DRZ_LK2 DRZ_LEADER_SEQ_2
+#define DRZ_LK3 DRZ_LEADER_SEQ_3
 
 //Qwerty single num keys
 #define DRZ___1   KC_1
@@ -177,15 +195,15 @@ void tap_code16_nomods(uint16_t kc);
 #define DRZ_EUR RALT(KC_5)
 
 #ifdef DRZ_SECRETS_ENABLED
-    bool process_record_secrets(uint16_t keycode, keyrecord_t *record);
+  bool process_record_secrets(uint16_t keycode, keyrecord_t *record);
 #endif
 
 #ifdef DRZ_LONGPRESS_ENABLED
-    #include "features/process_longpress.h"
+  #include "features/process_longpress.h"
 #endif
 
 #ifdef DRZ_RGBLIGHT_ENABLED
-    #include "features/rgb_light.h"
+  #include "features/rgb_light.h"
 #endif
 
 #ifdef DRZ_UNICODE_ENABLED

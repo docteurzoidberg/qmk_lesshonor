@@ -38,8 +38,8 @@ ifeq ($(strip $(DRZ_USE_UNICODE)), yes)
   UNICODEMAP_ENABLE     := no
   UCIS_ENABLE           := no
   UNICODE_COMMON        := yes
-  OPT_DEFS += -DDRZ_UNICODE_ENABLED
 	SRC += $(USER_PATH)/features/unicode.c
+  OPT_DEFS += -DDRZ_UNICODE_ENABLED
 endif
 
 DRZ_USE_RGBMATRIX ?= no

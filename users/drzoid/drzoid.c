@@ -1,5 +1,23 @@
 #include "drzoid.h"
 
+#ifdef DRZ_SECRETS_ENABLED
+  #if (__has_include("features/secrets.h") && !defined(NO_SECRETS))
+    #include "features/secrets.h"
+  #else
+    static const char * const secrets[] = {
+      "test1",
+      "test2",
+      "test3",
+      "test4",
+      "test5"
+    };
+  #endif
+#endif
+
+#ifdef DRZ_UNICODE_ENABLED
+  #include "features/unicode.h"
+#endif
+
 uint8_t _layer_lock=_QW;
 
 //Drzoid: stolen from drashna's
@@ -9,35 +27,28 @@ uint8_t _layer_lock=_QW;
  * @param kc keycode to use
  */
 void tap_code16_nomods(uint16_t kc) {
-    uint8_t temp_mod = get_mods();
-    clear_mods();
-    clear_oneshot_mods();
-    tap_code16(kc);
-    set_mods(temp_mod);
+  uint8_t temp_mod = get_mods();
+  clear_mods();
+  clear_oneshot_mods();
+  tap_code16(kc);
+  set_mods(temp_mod);
 }
 
 void matrix_init_user(void) {
-set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
+//#ifdef DRZ_UNICODE_ENABLED
+//  set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
+//#endif
 }
 
 void keyboard_post_init_user(void) {
-//#if defined(CUSTOM_RGBLIGHT)
-//    keyboard_post_init_rgb_light();
-//#endif
-//#if defined(CUSTOM_RGB_MATRIX)
-//    keyboard_post_init_rgb_matrix();
-//#endif
-//#if defined(SPLIT_KEYBOARD) && defined(SPLIT_TRANSACTION_IDS_USER)
-//    keyboard_post_init_transport_sync();
-//#endif
-//#ifdef I2C_SCANNER_ENABLE
-//    keyboard_post_init_i2c();
-//#endif
-//#ifdef DRZ_UNICODE_ENABLE
+  #ifdef DRZ_RGBMATRIX_ENABLED
+    //keyboard_post_init_rgb_matrix();
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_my_fire_effect);
+  #endif
+  #ifdef DRZ_UNICODE_ENABLED
     keyboard_post_init_unicode();
-//#endif
+  #endif
 }
-
 
 LEADER_EXTERNS();
 
@@ -47,22 +58,25 @@ void matrix_scan_user(void) {
     leading = false;
     leader_end();
 
+  //lock session: LEADER then L
+
+    //win+l
     SEQ_ONE_KEY(KC_L){
       register_code(KC_RGUI);
       TAP_ONCE(KC_L);
       unregister_code(KC_RGUI);
     }
 
+  //french accents: LEADER then [EAUOI] then [gact] (g= grave, a=aigue, c=chapo, t=trema )
+
     //è
     SEQ_TWO_KEYS (KC_E, KC_G) {
       TAP_ONCE (KC_GRAVE); TAP_ONCE (KC_E);
     }
-
     //é
     SEQ_TWO_KEYS (KC_E, KC_A) {
       register_code (KC_RALT); TAP_ONCE (KC_E); unregister_code (KC_RALT);
     }
-
     //à
     SEQ_TWO_KEYS (KC_A, KC_G) {
       TAP_ONCE (KC_GRAVE); TAP_ONCE (KC_A);
@@ -75,58 +89,117 @@ void matrix_scan_user(void) {
     SEQ_TWO_KEYS (KC_A, KC_C) {
       register_code (KC_RSFT); TAP_ONCE (KC_6); unregister_code (KC_RSFT); TAP_ONCE (KC_A);
     }
-
     //ê
     SEQ_TWO_KEYS (KC_E, KC_C) {
       register_code (KC_RSFT); TAP_ONCE (KC_6); unregister_code (KC_RSFT); TAP_ONCE (KC_E);
     }
-
     //¨e
     SEQ_TWO_KEYS (KC_E, KC_T) {
       register_code (KC_RALT); register_code (KC_RSFT); TAP_ONCE (KC_QUOTE); unregister_code (KC_RSFT); unregister_code (KC_RALT); TAP_ONCE (KC_E);
     }
 
-    #ifdef UNICODE_ENABLE
-        SEQ_TWO_KEYS (KC_U, KC_L) {
-        set_unicode_input_mode(UNICODE_MODE_LINUX);
-        }
+    //secrets
 
-        SEQ_TWO_KEYS (KC_U, KC_W) {
-        set_unicode_input_mode(UNICODE_MODE_WINDOWS);
-        }
-
-        SEQ_TWO_KEYS (KC_S, KC_S) {
-        // ¯\_(ツ)_/¯
-        unicode_input_start(); register_hex(0xaf); unicode_input_finish();
-        register_code (KC_LALT);
-        register_code (KC_LCTL);
-        TAP_ONCE (KC_MINS);
-        unregister_code (KC_LCTL);
-        unregister_code (KC_LALT);
-
-        register_code (KC_RSFT); TAP_ONCE (KC_8); unregister_code (KC_RSFT);
-        unicode_input_start (); register_hex(0x30c4); unicode_input_finish();
-        register_code (KC_RSFT); TAP_ONCE (KC_9); TAP_ONCE(KC_7); unregister_code (KC_RSFT);
-        unicode_input_start (); register_hex(0xaf); unicode_input_finish();
-        }
-
-        SEQ_TWO_KEYS (KC_S, KC_F) {
-        // 凸(ツ)凸
-        unicode_input_start(); register_hex(0x51F8); unicode_input_finish();
-        register_code (KC_RSFT); TAP_ONCE (KC_8); unregister_code (KC_RSFT);
-        unicode_input_start (); register_hex(0x30c4); unicode_input_finish();
-        register_code (KC_RSFT); TAP_ONCE (KC_9); unregister_code (KC_RSFT);
-        unicode_input_start (); register_hex(0x51F8); unicode_input_finish();
-        }
-
-        SEQ_TWO_KEYS (KC_S, KC_L) {
-        // λ
-        unicode_input_start();
-        register_hex(0x03bb);
-        unicode_input_finish();
-        }
+    #ifdef DRZ_SECRETS_ENABLED
+      //secret1: LEADER then 1 then 2 then 3
+      SEQ_THREE_KEYS (DRZ_LEADER_SEQ_1, DRZ_LEADER_SEQ_2, DRZ_LEADER_SEQ_3) {
+        ///I would like to send DRZ_SECRET_1 keycode and process it in secret.c;
+        tap_code16_nomods(DRZ_SECRET_1); //doesn't work
+      }
+      //secret2: LEADER then 3 then 2 then 1
+      SEQ_THREE_KEYS (DRZ_LEADER_SEQ_3, DRZ_LEADER_SEQ_2, DRZ_LEADER_SEQ_1) {
+        //I would like to send DRZ_SECRET_2 keycode and process it in secret.c instead;
+        //works, but include secret.h + secret handling duplicated:
+        clear_mods();
+        clear_oneshot_mods();
+        send_string_with_delay(secrets[1], MACRO_TIMER);
+      }
     #endif
-    };
+
+    //unicode
+
+    #ifdef DRZ_UNICODE_ENABLED
+
+      //unicode input modes: LEADER then U then 1, 2 or 3
+
+      //linux mode
+      SEQ_TWO_KEYS (KC_U, KC_1) {
+        set_unicode_input_mode(UNICODE_MODE_LINUX);
+      }
+      //windows mode
+      SEQ_TWO_KEYS (KC_U, KC_2) {
+        set_unicode_input_mode(UNICODE_MODE_WINDOWS);
+      }
+      //wincompose mode
+      SEQ_TWO_KEYS (KC_U, KC_3) {
+        set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
+      }
+
+      //unicode translate modes: LEADER then Y then 0-8
+      //WARNING: all leader sequences beginning with alpha keys will not work as soon as unicode typing mode is changed !
+      //you must then use DRZ_UC_MODE_NONE key to be able to use your keyboard normally again
+      /*
+        1 -> DRZ_UC_MODE_WIDE,
+        2 -> DRZ_UC_MODE_SCRIPT,
+        3 -> DRZ_UC_MODE_BLOCKS,
+        4 -> DRZ_UC_MODE_REGIONAL,
+        5 -> DRZ_UC_MODE_AUSSIE,
+        6 -> DRZ_UC_MODE_ZALGO,
+        7 -> DRZ_UC_MODE_SUPER,
+        8 -> DRZ_UC_MODE_COMIC,
+      */
+
+      //DRZ_UC_MODE_WIDE
+      SEQ_TWO_KEYS (KC_Y, KC_1) {
+        unicode_typing_mode = DRZ_UC_MODE_WIDE-DRZ_UC_MODE_NONE;
+      }
+      //DRZ_UC_MODE_SCRIPT
+      SEQ_TWO_KEYS (KC_Y, KC_2) {
+        unicode_typing_mode = DRZ_UC_MODE_SCRIPT-DRZ_UC_MODE_NONE;
+      }
+      //DRZ_UC_MODE_BLOCKS
+      SEQ_TWO_KEYS (KC_Y, KC_3) {
+        unicode_typing_mode = DRZ_UC_MODE_BLOCKS-DRZ_UC_MODE_NONE;
+      }
+      //DRZ_UC_MODE_REGIONAL
+      SEQ_TWO_KEYS (KC_Y, KC_4) {
+        unicode_typing_mode = DRZ_UC_MODE_REGIONAL-DRZ_UC_MODE_NONE;
+      }
+      //DRZ_UC_MODE_AUSSIE
+      SEQ_TWO_KEYS (KC_Y, KC_5) {
+        unicode_typing_mode = DRZ_UC_MODE_AUSSIE-DRZ_UC_MODE_NONE;
+      }
+      //DRZ_UC_MODE_ZALGO
+      SEQ_TWO_KEYS (KC_Y, KC_6) {
+        unicode_typing_mode = DRZ_UC_MODE_ZALGO-DRZ_UC_MODE_NONE;
+      }
+      //DRZ_UC_MODE_SUPER
+      SEQ_TWO_KEYS (KC_Y, KC_7) {
+        unicode_typing_mode = DRZ_UC_MODE_SUPER-DRZ_UC_MODE_NONE;
+      }
+      //DRZ_UC_MODE_COMIC
+      SEQ_TWO_KEYS (KC_Y, KC_8) {
+        unicode_typing_mode = DRZ_UC_MODE_COMIC-DRZ_UC_MODE_NONE;
+      }
+
+      //unicode 'art': LEADER then S then S, F or L
+
+      // ¯\_(ツ)_/¯
+      SEQ_TWO_KEYS (KC_S, KC_S) {
+        send_unicode_string("¯\\_(ツ)_/¯");
+      }
+      // 凸(ツ)凸
+      SEQ_TWO_KEYS (KC_S, KC_F) {
+        //would like to use 'DRZ_UC_* already existing keycodes
+        send_unicode_string("凸(ツ)凸");
+      }
+      // λ
+      SEQ_TWO_KEYS (KC_S, KC_L) {
+        send_unicode_string("λ");
+      }
+
+    #endif
+  };
 };
 
 void press_key_with_level_mods(uint16_t key) {

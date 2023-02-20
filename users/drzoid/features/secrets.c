@@ -4,8 +4,8 @@
 
 #define MACRO_TIMER 5
 
-#if (__has_include("secrets.h") && !defined(NO_SECRETS))
-#include "secrets.h"
+#if (__has_include("features/secrets.h") && !defined(NO_SECRETS))
+#include "features/secrets.h"
 #else
 static const char * const secrets[] = {
   "test1",

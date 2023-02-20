@@ -18,3 +18,4 @@
 
 #define DRZ_QWERTY_INTL_OS
 #define LEADER_TIMEOUT 1000
+#define MACRO_TIMER 5
