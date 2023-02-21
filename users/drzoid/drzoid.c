@@ -1,17 +1,7 @@
 #include "drzoid.h"
 
 #ifdef DRZ_SECRETS_ENABLED
-  #if (__has_include("features/secrets.h") && !defined(NO_SECRETS))
-    #include "features/secrets.h"
-  #else
-    static const char * const secrets[] = {
-      "test1",
-      "test2",
-      "test3",
-      "test4",
-      "test5"
-    };
-  #endif
+  bool drz_send_secret(uint8_t index);
 #endif
 
 #ifdef DRZ_UNICODE_ENABLED
@@ -35,9 +25,6 @@ void tap_code16_nomods(uint16_t kc) {
 }
 
 void matrix_init_user(void) {
-//#ifdef DRZ_UNICODE_ENABLED
-//  set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
-//#endif
 }
 
 void keyboard_post_init_user(void) {
@@ -103,16 +90,11 @@ void matrix_scan_user(void) {
     #ifdef DRZ_SECRETS_ENABLED
       //secret1: LEADER then 1 then 2 then 3
       SEQ_THREE_KEYS (DRZ_LEADER_SEQ_1, DRZ_LEADER_SEQ_2, DRZ_LEADER_SEQ_3) {
-        ///I would like to send DRZ_SECRET_1 keycode and process it in secret.c;
-        tap_code16_nomods(DRZ_SECRET_1); //doesn't work
+        drz_send_secret(0);
       }
       //secret2: LEADER then 3 then 2 then 1
       SEQ_THREE_KEYS (DRZ_LEADER_SEQ_3, DRZ_LEADER_SEQ_2, DRZ_LEADER_SEQ_1) {
-        //I would like to send DRZ_SECRET_2 keycode and process it in secret.c instead;
-        //works, but include secret.h + secret handling duplicated:
-        clear_mods();
-        clear_oneshot_mods();
-        send_string_with_delay(secrets[1], MACRO_TIMER);
+        drz_send_secret(1);
       }
     #endif
 
@@ -186,12 +168,11 @@ void matrix_scan_user(void) {
 
       // ¯\_(ツ)_/¯
       SEQ_TWO_KEYS (KC_S, KC_S) {
-        send_unicode_string("¯\\_(ツ)_/¯");
+        drz_send_unicode(DRZ_UC_SHRG);
       }
       // 凸(ツ)凸
       SEQ_TWO_KEYS (KC_S, KC_F) {
-        //would like to use 'DRZ_UC_* already existing keycodes
-        send_unicode_string("凸(ツ)凸");
+        drz_send_unicode(DRZ_UC_FUCK);
       }
       // λ
       SEQ_TWO_KEYS (KC_S, KC_L) {
@@ -457,11 +438,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
   #endif
-
+  #ifdef DRZ_UNICODE_ENABLED
     if(!process_record_unicode(keycode, record)) {
       return false;
     }
-
+  #endif
 
   bool returnValue = true;
   if(!process_overides(keycode, record)) {

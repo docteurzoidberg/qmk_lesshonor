@@ -324,6 +324,34 @@ bool process_record_zalgo(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+void drz_send_unicode(uint16_t keycode) {
+   switch (keycode) {
+      case DRZ_UC_FLIP:
+        send_unicode_string("(ノಠ痊ಠ)ノ彡┻━┻");
+        break;
+      case DRZ_UC_TABL:
+        send_unicode_string("┬─┬ノ( º _ ºノ)");
+        break;
+      case DRZ_UC_SHRG:
+        send_unicode_string("¯\\_(ツ)_/¯");
+        break;
+      case DRZ_UC_FUCK:
+        send_unicode_string("凸(ツ)凸");
+        break;
+      case DRZ_UC_DISA:
+        send_unicode_string("ಠ_ಠ");
+        break;
+      case DRZ_UC_IRNY: // ⸮
+        register_unicode(0x2E2E);
+        break;
+      case DRZ_UC_CLUE: // ‽
+        register_unicode(0x203D);
+        break;
+      default:
+        break;
+   }
+}
+
 /**
  * @brief Main handler for unicode input
  *
@@ -332,99 +360,80 @@ bool process_record_zalgo(uint16_t keycode, keyrecord_t *record) {
  * @return true Send keycode from matrix to host
  * @return false Stop processing and do not send to host
  */
-
 bool process_record_unicode(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case DRZ_UC_FLIP: // (ノಠ痊ಠ)ノ彡┻━┻
-            if (record->event.pressed) {
-                send_unicode_string("(ノಠ痊ಠ)ノ彡┻━┻");
-            }
-            break;
 
-        case DRZ_UC_TABL: // ┬─┬ノ( º _ ºノ)
-            if (record->event.pressed) {
-                send_unicode_string("┬─┬ノ( º _ ºノ)");
-            }
-            break;
+  /* Unicode keycodes */
 
-        case DRZ_UC_SHRG: // ¯\_(ツ)_/¯
-            if (record->event.pressed) {
-                send_unicode_string("¯\\_(ツ)_/¯");
-            }
-            break;
-
-        case DRZ_UC_DISA: // ಠ_ಠ
-            if (record->event.pressed) {
-                send_unicode_string("ಠ_ಠ");
-            }
-            break;
-
-        case DRZ_UC_IRNY: // ⸮
-            if (record->event.pressed) {
-                register_unicode(0x2E2E);
-            }
-            break;
-        case DRZ_UC_CLUE: // ‽
-            if (record->event.pressed) {
-                register_unicode(0x203D);
-            }
-            break;
-        case DRZ_UC_MODE_NONE ... DRZ_UC_MODE_COMIC:
-            if (record->event.pressed) {
-                if (unicode_typing_mode != keycode - DRZ_UC_MODE_NONE) {
-                    unicode_typing_mode = keycode - DRZ_UC_MODE_NONE;
-                } else {
-                    unicode_typing_mode = UCTM_NO_MODE;
-                }
-            }
-            break;
-    }
-
-    if (((get_mods() | get_oneshot_mods()) & ~MOD_MASK_SHIFT) != 0) {
-        return true;
-    }
-
-    if (IS_QK_MOD_TAP(keycode) && record->tap.count) {
-        keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
-    }
-    if (IS_QK_LAYER_TAP(keycode) && record->tap.count) {
-        keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-    }
-
-    if (unicode_typing_mode == UCTM_WIDE) {
-        if (((KC_A <= keycode) && (keycode <= KC_0)) || keycode == KC_SPACE) {
-            return process_record_glyph_replacement(keycode, record, unicode_range_translator_wide);
+  switch (keycode) {
+    case DRZ_UC_FLIP ... DRZ_UC_CLUE:   //first-last unicode strings keycodes
+      if (record->event.pressed)
+        drz_send_unicode(DRZ_UC_FLIP);
+      break;
+    case DRZ_UC_MODE_NONE ... DRZ_UC_MODE_COMIC:
+      if (record->event.pressed) {
+        if (unicode_typing_mode != keycode - DRZ_UC_MODE_NONE) {
+          unicode_typing_mode = keycode - DRZ_UC_MODE_NONE;
+        } else {
+          unicode_typing_mode = UCTM_NO_MODE;
         }
-    } else if (unicode_typing_mode == UCTM_SCRIPT) {
-        if (((KC_A <= keycode) && (keycode <= KC_0)) || keycode == KC_SPACE) {
-            return process_record_glyph_replacement(keycode, record, unicode_range_translator_script);
-        }
-    } else if (unicode_typing_mode == UCTM_BLOCKS) {
-        if (((KC_A <= keycode) && (keycode <= KC_0)) || keycode == KC_SPACE) {
-            return process_record_glyph_replacement(keycode, record, unicode_range_translator_boxes);
-        }
-    } else if (unicode_typing_mode == UCTM_REGIONAL) {
-        if (((KC_A <= keycode) && (keycode <= KC_0)) || keycode == KC_SPACE) {
-            if (!process_record_glyph_replacement(keycode, record, unicode_range_translator_regional)) {
-                wait_us(500);
-                tap_unicode_glyph_nomods(0x200C);
-                return false;
-            }
-        }
-    } else if (unicode_typing_mode == UCTM_SUPER) {
-        if (((KC_A <= keycode) && (keycode <= KC_0))) {
-            return process_record_glyph_replacement(keycode, record, unicode_lut_translator_super);
-        }
-    } else if (unicode_typing_mode == UCTM_COMIC) {
-        if (((KC_A <= keycode) && (keycode <= KC_0))) {
-            return process_record_glyph_replacement(keycode, record, unicode_lut_translator_comic);
-        }
-    } else if (unicode_typing_mode == UCTM_AUSSIE) {
-        return process_record_aussie(keycode, record);
-    } else if (unicode_typing_mode == UCTM_ZALGO) {
-        return process_record_zalgo(keycode, record);
-    }
+      }
+      break;
+  }
+
+  if (((get_mods() | get_oneshot_mods()) & ~MOD_MASK_SHIFT) != 0) {
     return true;
+  }
+
+  if (IS_QK_MOD_TAP(keycode) && record->tap.count) {
+    keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+  }
+  if (IS_QK_LAYER_TAP(keycode) && record->tap.count) {
+    keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+  }
+
+  /* Unicode typing modes */
+
+  if (unicode_typing_mode == UCTM_WIDE) {
+    if (((KC_A <= keycode) && (keycode <= KC_0)) || keycode == KC_SPACE) {
+      return process_record_glyph_replacement(keycode, record, unicode_range_translator_wide);
+    }
+  }
+  else if (unicode_typing_mode == UCTM_SCRIPT) {
+      if (((KC_A <= keycode) && (keycode <= KC_0)) || keycode == KC_SPACE) {
+          return process_record_glyph_replacement(keycode, record, unicode_range_translator_script);
+      }
+  }
+  else if (unicode_typing_mode == UCTM_BLOCKS) {
+    if (((KC_A <= keycode) && (keycode <= KC_0)) || keycode == KC_SPACE) {
+      return process_record_glyph_replacement(keycode, record, unicode_range_translator_boxes);
+    }
+  }
+  else if (unicode_typing_mode == UCTM_REGIONAL) {
+    if (((KC_A <= keycode) && (keycode <= KC_0)) || keycode == KC_SPACE) {
+      if (!process_record_glyph_replacement(keycode, record, unicode_range_translator_regional)) {
+        wait_us(500);
+        tap_unicode_glyph_nomods(0x200C);
+        return false;
+      }
+    }
+  }
+  else if (unicode_typing_mode == UCTM_SUPER) {
+    if (((KC_A <= keycode) && (keycode <= KC_0))) {
+      return process_record_glyph_replacement(keycode, record, unicode_lut_translator_super);
+    }
+  }
+  else if (unicode_typing_mode == UCTM_COMIC) {
+    if (((KC_A <= keycode) && (keycode <= KC_0))) {
+      return process_record_glyph_replacement(keycode, record, unicode_lut_translator_comic);
+    }
+  }
+  else if (unicode_typing_mode == UCTM_AUSSIE) {
+    return process_record_aussie(keycode, record);
+  }
+  else if (unicode_typing_mode == UCTM_ZALGO) {
+    return process_record_zalgo(keycode, record);
+  }
+  return true;
 }
 
 /**

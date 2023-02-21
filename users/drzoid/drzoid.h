@@ -3,34 +3,49 @@
 #include QMK_KEYBOARD_H
 
 enum userspace_custom_keycodes {
+
+/* Layers */
   QWERTY = SAFE_RANGE,
   FN,
   L2,
   L3,
+
+/* Special keycodes */
   DRZ_LOCK,
   DRZ_SWAP_HANDS=SH_MON,
   DRZ_LEFT_SHIFT_CAPSLOCK,
   DRZ_RIGHT_SHIFT_CAPSLOCK,
   DRZ_ACCENTS_TAPDANCE,
   DRZ_EMOJIS_TAPDANCE,
+
+/* Macros */
   DRZ_MACRO_COMMENT_START,
   DRZ_MACRO_COMMENT_END,
   DRZ_MACRO_TEST_SENDSTRING,
   DRZ_MACRO_EVE,
+
+/* 'Secrets' macros keycodes */
   DRZ_SECRET_1,                             // test1
   DRZ_SECRET_2,                             // test2
   DRZ_SECRET_3,                             // test3
   DRZ_SECRET_4,                             // test4
   DRZ_SECRET_5,                             // test5
+
+/* generic keys for 'secrets' leader sequences */
   DRZ_LEADER_SEQ_1,
   DRZ_LEADER_SEQ_2,
   DRZ_LEADER_SEQ_3,
+
+/* unicode macros */
   DRZ_UC_FLIP,                              // (ಠ痊ಠ)┻━┻
   DRZ_UC_TABL,                              // ┬─┬ノ( º _ ºノ)
   DRZ_UC_SHRG,                              // ¯\_(ツ)_/¯
+  DRZ_UC_FUCK,                              // 凸(ツ)凸
   DRZ_UC_DISA,                              // ಠ_ಠ
   DRZ_UC_IRNY,
   DRZ_UC_CLUE,
+
+/* unicode typing modes */
   DRZ_UC_MODE_NONE,
   DRZ_UC_MODE_WIDE,
   DRZ_UC_MODE_SCRIPT,
@@ -120,7 +135,6 @@ void tap_code16_nomods(uint16_t kc);
 #define DRZ_LK2 DRZ_LEADER_SEQ_2
 #define DRZ_LK3 DRZ_LEADER_SEQ_3
 
-//Qwerty single num keys
 #define DRZ___1   KC_1
 #define DRZ___2   KC_2
 #define DRZ___3   KC_3
@@ -132,7 +146,6 @@ void tap_code16_nomods(uint16_t kc);
 #define DRZ___9   KC_9
 #define DRZ___0   KC_0
 
-//Qwerty single alpha keys
 #define DRZ___Q   KC_Q
 #define DRZ___W   KC_W
 #define DRZ___E   KC_E
@@ -196,6 +209,7 @@ void tap_code16_nomods(uint16_t kc);
 
 #ifdef DRZ_SECRETS_ENABLED
   bool process_record_secrets(uint16_t keycode, keyrecord_t *record);
+  bool drz_send_secret(uint8_t index);
 #endif
 
 #ifdef DRZ_LONGPRESS_ENABLED
@@ -209,4 +223,5 @@ void tap_code16_nomods(uint16_t kc);
 #ifdef DRZ_UNICODE_ENABLED
   bool process_record_unicode(uint16_t keycode, keyrecord_t *record);
   void keyboard_post_init_unicode(void);
+  void drz_send_unicode(uint16_t keycode);
 #endif
