@@ -24,14 +24,20 @@ void tap_code16_nomods(uint16_t kc) {
   set_mods(temp_mod);
 }
 
+/* Matrix init user entrypoint */
 void matrix_init_user(void) {
 }
 
+/* Custom post init features */
 void keyboard_post_init_user(void) {
+
+  //init rgbmatrix feature
   #ifdef DRZ_RGBMATRIX_ENABLED
     //keyboard_post_init_rgb_matrix();
     rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_my_fire_effect);
   #endif
+
+  //init unicode feature
   #ifdef DRZ_UNICODE_ENABLED
     keyboard_post_init_unicode();
   #endif
@@ -39,6 +45,7 @@ void keyboard_post_init_user(void) {
 
 LEADER_EXTERNS();
 
+/* Matrix scan user */
 void matrix_scan_user(void) {
 
   LEADER_DICTIONARY() {
@@ -415,14 +422,14 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-/*
+
   #ifdef DYNAMIC_MACRO_USER_CALL
     uint16_t macro_kc = (keycode == MO(_DYN) ? DM_RSTP : keycode);
     if (!process_record_dynamic_macro(macro_kc, record)) {
       return false;
     }
   #endif
-*/
+
   #ifdef DRZ_SECRETS_ENABLED
     if(!process_record_secrets(keycode, record)) {
       return false;

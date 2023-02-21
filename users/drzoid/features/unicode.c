@@ -308,20 +308,18 @@ bool process_record_aussie(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_zalgo(uint16_t keycode, keyrecord_t *record) {
-    if ((KC_A <= keycode) && (keycode <= KC_0)) {
-        if (record->event.pressed) {
-            tap_code16_nomods(keycode);
-
-            int number = (rand() % (8 + 1 - 2)) + 2;
-            for (int index = 0; index < number; index++) {
-                uint16_t hex = (rand() % (0x036F + 1 - 0x0300)) + 0x0300;
-                register_unicode(hex);
-            }
-
-            return false;
-        }
+  if ((KC_A <= keycode) && (keycode <= KC_0)) {
+    if (record->event.pressed) {
+      tap_code16_nomods(keycode);
+      int number = (rand() % (8 + 1 - 2)) + 2;
+      for (int index = 0; index < number; index++) {
+        uint16_t hex = (rand() % (0x036F + 1 - 0x0300)) + 0x0300;
+        register_unicode(hex);
+      }
+      return false;
     }
-    return true;
+  }
+  return true;
 }
 
 void drz_send_unicode(uint16_t keycode) {
